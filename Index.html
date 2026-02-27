@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>February 2026 · Iftar with Idress · Ramadan</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e0d9cc 0%, #f0e9dc 100%);
+            font-family: 'Segoe UI', 'Roboto', system-ui, -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 16px;
+        }
+
+        /* main card – warm cream, like paper */
+        .card {
+            max-width: 500px;
+            width: 100%;
+            background: #fefcf5;
+            border-radius: 40px 40px 32px 32px;
+            box-shadow: 0 30px 50px -20px #2f3e4e, 0 8px 12px rgba(0,0,0,0.05);
+            padding: 24px 20px 28px;
+            transition: all 0.2s ease;
+            border: 1px solid #eeddbb;
+        }
+
+        /* header */
+        .month-header {
+            font-size: 30px;
+            font-weight: 500;
+            color: #6d4c2b;
+            letter-spacing: -0.2px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .month-header span {
+            font-size: 32px;
+        }
+
+        .official-note {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #ebdcc8;
+            padding: 10px 18px;
+            border-radius: 60px;
+            width: fit-content;
+            margin-bottom: 28px;
+            font-weight: 450;
+            color: #4f3a24;
+            font-size: 16px;
+            border: 1px solid #cfb78b;
+            box-shadow: inset 0 1px 4px #fff8e7;
+        }
+
+        /* calendar grid – PROPER 7-COLUMN LAYOUT */
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            margin-bottom: 28px;
+        }
+
+        .weekday {
+            text-align: center;
+            font-weight: 600;
+            color: #7b5e3b;
+            font-size: 15px;
+            padding: 8px 0;
+            background: #f7efe0;
+            border-radius: 30px;
+        }
+
+        .day-cell {
+            aspect-ratio: 1 / 1;
+            background: #fcf9f2;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 450;
+            color: #2e241b;
+            border: 1px solid #e5cfb2;
+            padding: 4px 2px;
+            transition: 0.1s;
+            box-shadow: 0 2px 6px #f0dcc0;
+            cursor: pointer;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .day-cell:hover {
+            background: #f5efe0;
+            transform: scale(1.05);
+        }
+
+        .day-cell.empty {
+            background: transparent;
+            border: 1px dashed #e5d5c0;
+            color: #9b855c;
+            box-shadow: none;
+            opacity: 0.5;
+        }
+
+        /* reminder on 30 feb */
+        .reminder-badge {
+            font-size: 9px;
+            font-weight: 600;
+            background: #cbaa7a;
+            color: #1f2c1b;
+            padding: 3px 4px;
+            border-radius: 50px;
+            margin-top: 2px;
+            white-space: normal;
+            width: 100%;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            border: 1px solid #b58d57;
+            transition: all 0.15s;
+            box-shadow: 0 2px 6px #e3b185;
+            font-family: 'Segoe UI', sans-serif;
+            letter-spacing: 0.3px;
+            line-height: 1.2;
+            word-break: break-word;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .reminder-badge:hover {
+            background: #dab58a;
+            transform: scale(1.02);
+        }
+
+        /* symbol row (⭐ ✨ 🌙) */
+        .symbol-row {
+            display: flex;
+            gap: 20px;
+            justify-content: flex-end;
+            font-size: 32px;
+            margin-top: 12px;
+            padding-right: 10px;
+            color: #9f823b;
+        }
+
+        /* ========== RAMADAN STYLE DETAILS PAGE ========== */
+        .details-view {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0.2; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .back-button {
+            background: #e6d3bb;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #4e3a27;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding: 10px 18px;
+            border-radius: 60px;
+            font-weight: 500;
+            width: fit-content;
+            border: 1px solid #c4a77a;
+            box-shadow: 0 4px 8px #cab48f;
+            transition: 0.1s;
+        }
+        .back-button:hover {
+            background: #efddc5;
+        }
+
+        /* ramadan special card – lantern / crescent vibe */
+        .ramadan-card {
+            background: linear-gradient(145deg, #1e3a2f, #15382b);
+            border-radius: 48px 48px 36px 36px;
+            padding: 30px 24px 40px;
+            border: 2px solid #c9a357;
+            box-shadow: 0 20px 30px -10px #0f2d1f, inset 0 0 30px #f9e1a030;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ramadan-card::before {
+            content: "☪️";
+            position: absolute;
+            font-size: 120px;
+            right: -10px;
+            bottom: -20px;
+            opacity: 0.1;
+            transform: rotate(15deg);
+            color: #f9e6b3;
+            pointer-events: none;
+        }
+
+        .ramadan-card::after {
+            content: "✨";
+            position: absolute;
+            font-size: 70px;
+            left: 5px;
+            top: 5px;
+            opacity: 0.15;
+            transform: rotate(-10deg);
+            color: #ffdb8e;
+        }
+
+        .idress-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: #dab384;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #f7d98c;
+            box-shadow: 0 12px 24px #0e2a1e;
+            overflow: hidden;
+        }
+
+        .idress-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .iftar-message {
+            font-size: 26px;
+            font-weight: 600;
+            text-align: center;
+            color: #fee3b5;
+            background: #2b5a47;
+            padding: 20px 10px;
+            border-radius: 80px;
+            line-height: 1.45;
+            margin: 24px 0 28px;
+            border: 1px solid #c6a155;
+            box-shadow: inset 0 2px 10px #fdebb3, 0 10px 20px #0a231a;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+            letter-spacing: 0.3px;
+        }
+
+        .whatsapp-button {
+            background: #1f9b4d;
+            color: white;
+            border: none;
+            font-size: 24px;
+            font-weight: 600;
+            padding: 20px 28px;
+            border-radius: 70px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            width: 100%;
+            cursor: pointer;
+            text-decoration: none;
+            border: 2px solid #f9cd7c;
+            box-shadow: 0 20px 30px -8px #0f4229, 0 0 0 2px #fbe2aa inset;
+            transition: 0.15s;
+            margin-top: 12px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .whatsapp-button:hover {
+            background: #35b55f;
+            border-color: #ffd78c;
+            box-shadow: 0 22px 32px -6px #1b4e2e;
+        }
+
+        .phone-hint {
+            font-size: 18px;
+            color: #eedbaa;
+            margin-top: 22px;
+            text-align: center;
+            background: #1e483a;
+            padding: 8px 20px;
+            border-radius: 60px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid #cbaa6b;
+        }
+
+        /* divider / lantern row */
+        .lantern-row {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            font-size: 32px;
+            margin: 16px 0 8px;
+            color: #f5cd7a;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* fix for small screens */
+        @media (max-width: 400px) {
+            .calendar {
+                gap: 4px;
+            }
+            
+            .day-cell {
+                font-size: 16px;
+                border-radius: 12px;
+            }
+            
+            .reminder-badge {
+                font-size: 7px;
+                padding: 2px 2px;
+            }
+            
+            .weekday {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card" id="mainCard">
+        <!-- ========== CORRECTED CALENDAR VIEW (30 days, proper grid) ========== -->
+        <div id="calendarView">
+            <div class="month-header">
+                <span>📅</span> February 2026
+            </div>
+            <div class="official-note">
+                <span>📅</span> February 2026 · 30 days
+            </div>
+
+            <!-- Proper 7-column calendar grid -->
+            <div class="calendar">
+                <!-- Weekdays: S M T W T F S -->
+                <div class="weekday">S</div>
+                <div class="weekday">M</div>
+                <div class="weekday">T</div>
+                <div class="weekday">W</div>
+                <div class="weekday">T</div>
+                <div class="weekday">F</div>
+                <div class="weekday">S</div>
+
+                <!-- Week 1: Feb 1-7 -->
+                <div class="day-cell">1</div>
+                <div class="day-cell">2</div>
+                <div class="day-cell">3</div>
+                <div class="day-cell">4</div>
+                <div class="day-cell">5</div>
+                <div class="day-cell">6</div>
+                <div class="day-cell">7</div>
+
+                <!-- Week 2: Feb 8-14 -->
+                <div class="day-cell">8</div>
+                <div class="day-cell">9</div>
+                <div class="day-cell">10</div>
+                <div class="day-cell">11</div>
+                <div class="day-cell">12</div>
+                <div class="day-cell">13</div>
+                <div class="day-cell">14</div>
+
+                <!-- Week 3: Feb 15-21 -->
+                <div class="day-cell">15</div>
+                <div class="day-cell">16</div>
+                <div class="day-cell">17</div>
+                <div class="day-cell">18</div>
+                <div class="day-cell">19</div>
+                <div class="day-cell">20</div>
+                <div class="day-cell">21</div>
+
+                <!-- Week 4: Feb 22-28 -->
+                <div class="day-cell">22</div>
+                <div class="day-cell">23</div>
+                <div class="day-cell">24</div>
+                <div class="day-cell">25</div>
+                <div class="day-cell">26</div>
+                <div class="day-cell">27</div>
+                <div class="day-cell">28</div>
+
+                <!-- Week 5: Feb 29-30 (last row) -->
+                <div class="day-cell">29</div>
+                <div class="day-cell" style="position: relative; background: #f5e6d3; border-color: #c4a574; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px;">
+                    30
+                    <div class="reminder-badge" id="iftarReminder">
+                        Iftar with Idress
+                    </div>
+                </div>
+                <div class="day-cell empty"></div>
+                <div class="day-cell empty"></div>
+                <div class="day-cell empty"></div>
+                <div class="day-cell empty"></div>
+                <div class="day-cell empty"></div>
+            </div>
+
+            <!-- symbols -->
+            <div class="symbol-row">
+                <span>⭐</span>
+                <span>✨</span>
+                <span>🌙</span>
+            </div>
+        </div>
+
+        <!-- ========== RAMADAN THEMED DETAILS VIEW ========== -->
+        <div id="detailsView" class="details-view">
+            <button class="back-button" id="backToCalendarBtn">← back to calendar</button>
+
+            <div class="ramadan-card">
+                <!-- lantern row decoration -->
+                <div class="lantern-row">
+                    <span>🏮</span> <span>🌙</span> <span>✨</span> <span>🕌</span>
+                </div>
+
+                <!-- idress image -->
+                <div class="idress-image">
+                    <img src="idress.jpg" alt="Idress" onerror="this.style.display='none'; this.parentElement.innerHTML='📸 Idress'; this.parentElement.style.fontSize='40px';">
+                </div>
+
+                <div class="iftar-message">
+                    30️⃣ 🌙<br>
+                    30 feb ko idress k pass<br>iftari krny jana hai
+                </div>
+
+                <!-- whatsapp button -->
+                <a class="whatsapp-button" 
+                   href="https://wa.me/923496846962?text=Assalamoalaikum%20Idress!%20Iftar%20ki%20plan%20confirm%20hai%20%E2%98%AA%EF%B8%8F%F0%9F%8C%99" 
+                   target="_blank"
+                   id="whatsappLink">
+                    <span>📱</span> Whatsapp Idress 🌙
+                </a>
+
+                <div class="phone-hint">
+                    +92 349 6846962
+                </div>
+
+                <!-- extra ramadan touch -->
+                <div style="text-align: center; margin-top: 22px; color: #f1d78c; font-size: 22px;">
+                    ✨ رمضان كريم ✨
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const calendarView = document.getElementById('calendarView');
+            const detailsView = document.getElementById('detailsView');
+            const reminder = document.getElementById('iftarReminder');
+            const backBtn = document.getElementById('backToCalendarBtn');
+
+            if (reminder) {
+                reminder.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    calendarView.style.display = 'none';
+                    detailsView.style.display = 'block';
+                });
+            }
+
+            if (backBtn) {
+                backBtn.addEventListener('click', function() {
+                    calendarView.style.display = 'block';
+                    detailsView.style.display = 'none';
+                });
+            }
+
+            // initial visibility
+            calendarView.style.display = 'block';
+            detailsView.style.display = 'none';
+        })();
+    </script>
+</body>
+</html>
